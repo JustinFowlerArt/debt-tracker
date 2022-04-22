@@ -1,43 +1,71 @@
 import React, { useState } from "react";
 import blockInvalidChar from "@/Common/BlockInvalidChar";
 import Input from "./Input";
-import Dropdown from "./Dropdown";
+import Label from "./Label";
 
-export default function Payoff( {debt} ) {
+export default function Payoff({ debt }) {
     const [payment, setPayment] = useState(0);
     const [frequency, setFrequency] = useState(null);
+
+    const payoffLength = debt / (payment * frequency);
+    const payoffLengthMonths = Math.ceil(payoffLength * 12);
+    const payoffLengthWeeks = Math.ceil(payoffLength * 52);
+
+    let payoffTerm;
+    let payoffUnit;
+    if (payoffLengthMonths > 24) {
+        payoffTerm = payoffLength.toFixed(1);
+        payoffUnit = "years";
+    } else if (payoffLengthMonths < 2) {
+        payoffTerm = payoffLengthWeeks;
+        payoffUnit = "weeks";
+
+    } else {
+        payoffTerm = payoffLengthMonths;
+        payoffUnit = "months";
+    }
 
     function handleChange(event) {
         setPayment(event.target.value);
     }
 
+    function onChange(event) {
+        setFrequency(event.target.value);
+    }
+
     return (
-        <div>
-            <Input type="number" handleChange={handleChange}/>
-            <Dropdown children="Test" />
-            <Dropdown children={[
-                <Dropdown.Content key={"Monthly"} children={"Monthly"}/>,
-                <Dropdown.Content key={"Biweekly"} children={"Biweekly"}/>,
-                <Dropdown.Content key={"Weekly"} children={"Weekly"}/>
-                ]}
-            />
+        <div className="flex">
+            <div className="mr-6">
+                <Label forInput="payment" className="text-base">
+                    Payment Amount: $
+                    <Input
+                        type="number"
+                        name="payment"
+                        className="p-0 ml-2"
+                        handleChange={handleChange}
+                        onKeyDown={blockInvalidChar}
+                    />
+                </Label>
+            </div>
 
-            {/* <form>
-                <input
-                    className="p-0 bg-gray-200 border-b border-gray-500"
-                    type="number"
-                    onKeyDown={blockInvalidChar}
-                    onChange={handleChange}
-                />
+            <form>
                 <select
-                    onChange={onChange()}
+                    className="py-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    onChange={onChange}
                 >
-                <option value="Monthly">Monthly</option>
-                <option value="Biweekly">Biweekly</option>
-                <option value="Weekly">Weekly</option>
-
+                    <option value="0">Select a Frequency</option>
+                    <option value="12">Monthly</option>
+                    <option value="26">Biweekly</option>
+                    <option value="52">Weekly</option>
                 </select>
-            </form> */}
+            </form>
+            {payoffLength > 0 && isFinite(payoffLength) && (
+                <div className="ml-6">
+                    <p>
+                        Time until payoff: {payoffTerm} {payoffUnit}
+                    </p>
+                </div>
+            )}
         </div>
-    )
+    );
 }

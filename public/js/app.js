@@ -4391,7 +4391,7 @@ function Debt(_ref) {
   var debt = _ref.debt,
       setDebt = _ref.setDebt;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState2 = _slicedToArray(_useState, 2),
       updateDebt = _useState2[0],
       setUpdateDebt = _useState2[1];
@@ -4416,19 +4416,21 @@ function Debt(_ref) {
     });
   }
 
-  if (updateDebt) {
+  if (!updateDebt) {
     return showDebt();
   } else {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
-      className: "inline",
+      className: "inline ml-2",
       onSubmit: onSubmit,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
         type: "number",
-        handleChange: handleChange
+        className: "p-0",
+        handleChange: handleChange,
+        onKeyDown: _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
         type: "submit",
         value: "Submit",
-        className: "ml-2"
+        className: "ml-2 shadow-none"
       })]
     });
   }
@@ -4617,7 +4619,8 @@ function Input(_ref) {
       autoComplete = _ref.autoComplete,
       required = _ref.required,
       isFocused = _ref.isFocused,
-      handleChange = _ref.handleChange;
+      handleChange = _ref.handleChange,
+      _onKeyDown = _ref.onKeyDown;
   var input = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (isFocused) {
@@ -4629,12 +4632,15 @@ function Input(_ref) {
       type: type,
       name: name,
       value: value,
-      className: "p-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm " + className,
+      className: "border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm " + className,
       ref: input,
       autoComplete: autoComplete,
       required: required,
       onChange: function onChange(e) {
         return handleChange(e);
+      },
+      onKeyDown: function onKeyDown(e) {
+        return _onKeyDown(e);
       }
     })
   });
@@ -4715,7 +4721,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Common/BlockInvalidChar */ "./resources/js/Common/BlockInvalidChar.js");
 /* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Input */ "./resources/js/Components/Input.js");
-/* harmony import */ var _Dropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Dropdown */ "./resources/js/Components/Dropdown.js");
+/* harmony import */ var _Label__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Label */ "./resources/js/Components/Label.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -4748,24 +4754,69 @@ function Payoff(_ref) {
       frequency = _useState4[0],
       setFrequency = _useState4[1];
 
+  var payoffLength = debt / (payment * frequency);
+  var payoffLengthMonths = Math.ceil(payoffLength * 12);
+  var payoffLengthWeeks = Math.ceil(payoffLength * 52);
+  var payoffTerm;
+  var payoffUnit;
+
+  if (payoffLengthMonths > 24) {
+    payoffTerm = payoffLength.toFixed(1);
+    payoffUnit = "years";
+  } else if (payoffLengthMonths < 2) {
+    payoffTerm = payoffLengthWeeks;
+    payoffUnit = "weeks";
+  } else {
+    payoffTerm = payoffLengthMonths;
+    payoffUnit = "months";
+  }
+
   function handleChange(event) {
     setPayment(event.target.value);
   }
 
+  function onChange(event) {
+    setFrequency(event.target.value);
+  }
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      type: "number",
-      handleChange: handleChange
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      children: "Test"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"].Content, {
-        children: "Monthly"
-      }, "Monthly"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"].Content, {
-        children: "Biweekly"
-      }, "Biweekly"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Dropdown__WEBPACK_IMPORTED_MODULE_3__["default"].Content, {
-        children: "Weekly"
-      }, "Weekly")]
+    className: "flex",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "mr-6",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        forInput: "payment",
+        className: "text-base",
+        children: ["Payment Amount: $", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          type: "number",
+          name: "payment",
+          className: "p-0 ml-2",
+          handleChange: handleChange,
+          onKeyDown: _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"]
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("form", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
+        className: "py-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm",
+        onChange: onChange,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+          value: "0",
+          children: "Select a Frequency"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+          value: "12",
+          children: "Monthly"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+          value: "26",
+          children: "Biweekly"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+          value: "52",
+          children: "Weekly"
+        })]
+      })
+    }), payoffLength > 0 && isFinite(payoffLength) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "ml-6",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+        children: ["Time until payoff: ", payoffTerm, " ", payoffUnit]
+      })
     })]
   });
 }
@@ -5750,7 +5801,7 @@ function Dashboard(props) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "max-w-7xl mx-auto sm:px-6 lg:px-8",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "bg-white overflow-hidden shadow-sm sm:rounded-lg",
+          className: "bg-white shadow-sm sm:rounded-lg",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "flex justify-between p-6 bg-white border-b border-gray-200",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {

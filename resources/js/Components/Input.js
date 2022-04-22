@@ -9,6 +9,7 @@ export default function Input({
     required,
     isFocused,
     handleChange,
+    onKeyDown,
 }) {
     const input = useRef();
 
@@ -25,13 +26,14 @@ export default function Input({
                 name={name}
                 value={value}
                 className={
-                    `p-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ` +
+                    `border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ` +
                     className
                 }
                 ref={input}
                 autoComplete={autoComplete}
                 required={required}
                 onChange={(e) => handleChange(e)}
+                onKeyDown={(e) => onKeyDown(e)}
             />
         </>
     );
