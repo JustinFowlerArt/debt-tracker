@@ -4355,21 +4355,27 @@ function Checkbox(_ref) {
 
 /***/ }),
 
-/***/ "./resources/js/Components/Debt.js":
-/*!*****************************************!*\
-  !*** ./resources/js/Components/Debt.js ***!
-  \*****************************************/
+/***/ "./resources/js/Components/DebtForm.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Components/DebtForm.js ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Debt)
+/* harmony export */   "default": () => (/* binding */ DebtForm)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Common/BlockInvalidChar */ "./resources/js/Common/BlockInvalidChar.js");
-/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Input */ "./resources/js/Components/Input.js");
+/* harmony import */ var _DebtTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DebtTable */ "./resources/js/Components/DebtTable.js");
+/* harmony import */ var _DebtInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DebtInput */ "./resources/js/Components/DebtInput.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4387,53 +4393,243 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function Debt(_ref) {
-  var debt = _ref.debt,
-      setDebt = _ref.setDebt;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+function DebtForm() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    id: 1,
+    name: "",
+    balance: "",
+    payment: "",
+    interest: ""
+  }),
       _useState2 = _slicedToArray(_useState, 2),
-      updateDebt = _useState2[0],
-      setUpdateDebt = _useState2[1];
+      debtData = _useState2[0],
+      setDebtData = _useState2[1]; // const [debtInputData, setDebtInputData] = useState({
+  //     name: "",
+  //     balance: "",
+  //     payment: "",
+  //     interest: "",
+  // });
 
-  function onSubmit(event) {
-    event.preventDefault();
-    return setUpdateDebt(!updateDebt);
-  }
 
-  function handleChange(event) {
-    setDebt(event.target.value);
-  }
-
-  function showDebt() {
-    var toggle = function toggle() {
-      return setUpdateDebt(!updateDebt);
+  var handleChange = function handleChange(e) {
+    var newInput = function newInput(data) {
+      return _objectSpread(_objectSpread({}, data), {}, _defineProperty({}, e.target.name, e.target.value));
     };
 
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-      onClick: toggle,
-      children: debt
-    });
-  }
+    setDebtData(newInput);
+  }; // const handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     const checkEmptyInput = !Object.values(debtInputData).every(
+  //         (res) => res === ""
+  //     );
+  //     if (checkEmptyInput) {
+  //         const newData = (data) => [...data, debtInputData];
+  //         setDebtData(newData);
+  //         const emptyInput = {
+  //             name: "",
+  //             balance: "",
+  //             payment: "",
+  //             interest: "",
+  //         };
+  //         setDebtInputData(emptyInput);
+  //     }
+  // };
+  // function handleClick() {
+  //     setDebts([...debts, <Debt />]);
+  // }
 
-  if (!updateDebt) {
-    return showDebt();
-  } else {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
-      className: "inline ml-2",
-      onSubmit: onSubmit,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_DebtTable__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      data: debtData,
+      handleChange: handleChange
+    })
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/DebtInput.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Components/DebtInput.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ DebtInput)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Common/BlockInvalidChar */ "./resources/js/Common/BlockInvalidChar.js");
+/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Input */ "./resources/js/Components/Input.js");
+/* harmony import */ var _Label__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Label */ "./resources/js/Components/Label.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+function DebtInput(_ref) {
+  var debtInputData = _ref.debtInputData,
+      handleChange = _ref.handleChange,
+      handleSubmit = _ref.handleSubmit;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+    className: "",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      forInput: "name",
+      className: "text-base",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "text",
+        name: "name",
+        value: debtInputData.name,
+        className: "p-1",
+        handleChange: handleChange
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      forInput: "balance",
+      className: "text-base",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
         type: "number",
-        className: "p-0",
+        name: "balance",
+        value: debtInputData.balance,
+        className: "p-1 w-40",
         handleChange: handleChange,
-        onKeyDown: _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        handleKeyDown: function handleKeyDown(e) {
+          return (0,_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"])(e);
+        }
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      forInput: "payment",
+      className: "text-base",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "number",
+        name: "payment",
+        value: debtInputData.payment,
+        className: "p-1 w-40",
+        handleChange: handleChange,
+        handleKeyDown: function handleKeyDown(e) {
+          return (0,_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"])(e);
+        }
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      forInput: "interest",
+      className: "text-base",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "number",
+        name: "interest",
+        value: debtInputData.interest,
+        className: "p-1 w-20",
+        handleChange: handleChange,
+        handleKeyDown: function handleKeyDown(e) {
+          return (0,_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"])(e);
+        }
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      forInput: "submit",
+      className: "text-base",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
         type: "submit",
         value: "Submit",
-        className: "ml-2 shadow-none"
-      })]
-    });
-  }
+        className: "ml-2 shadow-none",
+        onClick: handleSubmit
+      })
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/Components/DebtTable.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Components/DebtTable.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ DebtTable)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Input */ "./resources/js/Components/Input.js");
+/* harmony import */ var _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Common/BlockInvalidChar */ "./resources/js/Common/BlockInvalidChar.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+function DebtTable(_ref) {
+  var data = _ref.data,
+      handleChange = _ref.handleChange;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
+    className: "table-auto w-full",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+        className: "text-left",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: "\xA0"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: "Debt Name"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: "Remaining Balance"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: "Monthly or Min. Payment"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+          children: "Interest Rate"
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tbody", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+          children: [data.id, "."]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            type: "text",
+            name: "name",
+            value: data.name,
+            className: "p-1",
+            handleChange: handleChange
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            type: "number",
+            name: "balance",
+            value: data.balance,
+            className: "p-1 w-40",
+            handleChange: handleChange,
+            handleKeyDown: function handleKeyDown(e) {
+              return (0,_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_2__["default"])(e);
+            }
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            type: "number",
+            name: "payment",
+            value: data.payment,
+            className: "p-1 w-40",
+            handleChange: handleChange,
+            handleKeyDown: function handleKeyDown(e) {
+              return (0,_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_2__["default"])(e);
+            }
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            type: "number",
+            name: "interest",
+            value: data.interest,
+            className: "p-1 w-20",
+            handleChange: handleChange,
+            handleKeyDown: function handleKeyDown(e) {
+              return (0,_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_2__["default"])(e);
+            }
+          })
+        })]
+      }, data.id)
+    })]
+  });
 }
 
 /***/ }),
@@ -4612,7 +4808,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function Input(_ref) {
   var _ref$type = _ref.type,
-      type = _ref$type === void 0 ? 'text' : _ref$type,
+      type = _ref$type === void 0 ? "text" : _ref$type,
       name = _ref.name,
       value = _ref.value,
       className = _ref.className,
@@ -4620,13 +4816,18 @@ function Input(_ref) {
       required = _ref.required,
       isFocused = _ref.isFocused,
       handleChange = _ref.handleChange,
-      _onKeyDown = _ref.onKeyDown;
+      handleKeyDown = _ref.handleKeyDown;
   var input = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (isFocused) {
       input.current.focus();
     }
   }, []);
+  Input.defaultProps = {
+    handleKeyDown: function handleKeyDown() {
+      return null;
+    }
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
       type: type,
@@ -4639,9 +4840,7 @@ function Input(_ref) {
       onChange: function onChange(e) {
         return handleChange(e);
       },
-      onKeyDown: function onKeyDown(e) {
-        return _onKeyDown(e);
-      }
+      onKeyDown: handleKeyDown
     })
   });
 }
@@ -4702,122 +4901,6 @@ function NavLink(_ref) {
     href: href,
     className: active ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out',
     children: children
-  });
-}
-
-/***/ }),
-
-/***/ "./resources/js/Components/Payoff.js":
-/*!*******************************************!*\
-  !*** ./resources/js/Components/Payoff.js ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Payoff)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Common/BlockInvalidChar */ "./resources/js/Common/BlockInvalidChar.js");
-/* harmony import */ var _Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Input */ "./resources/js/Components/Input.js");
-/* harmony import */ var _Label__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Label */ "./resources/js/Components/Label.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-function Payoff(_ref) {
-  var debt = _ref.debt;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState2 = _slicedToArray(_useState, 2),
-      payment = _useState2[0],
-      setPayment = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      frequency = _useState4[0],
-      setFrequency = _useState4[1];
-
-  var payoffLength = debt / (payment * frequency);
-  var payoffLengthMonths = Math.ceil(payoffLength * 12);
-  var payoffLengthWeeks = Math.ceil(payoffLength * 52);
-  var payoffTerm;
-  var payoffUnit;
-
-  if (payoffLengthMonths > 24) {
-    payoffTerm = payoffLength.toFixed(1);
-    payoffUnit = "years";
-  } else if (payoffLengthMonths < 2) {
-    payoffTerm = payoffLengthWeeks;
-    payoffUnit = "weeks";
-  } else {
-    payoffTerm = payoffLengthMonths;
-    payoffUnit = "months";
-  }
-
-  function handleChange(event) {
-    setPayment(event.target.value);
-  }
-
-  function onChange(event) {
-    setFrequency(event.target.value);
-  }
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "flex",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "mr-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        forInput: "payment",
-        className: "text-base",
-        children: ["Payment Amount: $", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          type: "number",
-          name: "payment",
-          className: "p-0 ml-2",
-          handleChange: handleChange,
-          onKeyDown: _Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__["default"]
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("form", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
-        className: "py-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm",
-        onChange: onChange,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-          value: "0",
-          children: "Select a Frequency"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-          value: "12",
-          children: "Monthly"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-          value: "26",
-          children: "Biweekly"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-          value: "52",
-          children: "Weekly"
-        })]
-      })
-    }), payoffLength > 0 && isFinite(payoffLength) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "ml-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
-        children: ["Time until payoff: ", payoffTerm, " ", payoffUnit]
-      })
-    })]
   });
 }
 
@@ -5759,22 +5842,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/Authenticated */ "./resources/js/Layouts/Authenticated.js");
 /* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
-/* harmony import */ var _Components_Debt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Debt */ "./resources/js/Components/Debt.js");
-/* harmony import */ var _Components_Payoff__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/Payoff */ "./resources/js/Components/Payoff.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
+/* harmony import */ var _Components_DebtForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/DebtForm */ "./resources/js/Components/DebtForm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -5782,40 +5851,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function Dashboard(props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState2 = _slicedToArray(_useState, 2),
-      debt = _useState2[0],
-      setDebt = _useState2[1];
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_1__["default"], {
     auth: props.auth,
     errors: props.errors,
-    header: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
+    header: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
       className: "font-semibold text-xl text-gray-800 leading-tight",
       children: "Dashboard"
     }),
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.Head, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.Head, {
       title: "Dashboard"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "py-12",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "max-w-7xl mx-auto sm:px-6 lg:px-8",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "bg-white shadow-sm sm:rounded-lg",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "flex justify-between p-6 bg-white border-b border-gray-200",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-              children: ["Debt: $", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Components_Debt__WEBPACK_IMPORTED_MODULE_3__["default"], {
-                  debt: debt,
-                  setDebt: setDebt
-                })
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Components_Payoff__WEBPACK_IMPORTED_MODULE_4__["default"], {
-                debt: debt
-              })
-            })]
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "flex flex-col justify-between p-6 bg-white border-b border-gray-200",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Components_DebtForm__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+            })
           })
         })
       })

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 export default function Input({
-    type = 'text',
+    type = "text",
     name,
     value,
     className,
@@ -9,7 +9,7 @@ export default function Input({
     required,
     isFocused,
     handleChange,
-    onKeyDown,
+    handleKeyDown,
 }) {
     const input = useRef();
 
@@ -18,6 +18,10 @@ export default function Input({
             input.current.focus();
         }
     }, []);
+
+    Input.defaultProps = {
+        handleKeyDown: () => null,
+    };
 
     return (
         <>
@@ -33,7 +37,7 @@ export default function Input({
                 autoComplete={autoComplete}
                 required={required}
                 onChange={(e) => handleChange(e)}
-                onKeyDown={(e) => onKeyDown(e)}
+                onKeyDown={handleKeyDown}
             />
         </>
     );

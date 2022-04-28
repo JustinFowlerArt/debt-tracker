@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
-
-import Debt from "@/Components/Debt";
-import Payoff from "@/Components/Payoff";
+import DebtForm from "@/Components/DebtForm";
 
 export default function Dashboard(props) {
-    const [debt, setDebt] = useState(0);
-
     return (
         <Authenticated
             auth={props.auth}
@@ -23,13 +19,13 @@ export default function Dashboard(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg">
-                        <div className="flex justify-between p-6 bg-white border-b border-gray-200">
+                        <div className="flex flex-col justify-between p-6 bg-white border-b border-gray-200">
                             <div>
-                                Debt: $<span><Debt debt={debt} setDebt={setDebt}/></span>
+                                <DebtForm />
                             </div>
-                            <div>
-                                <Payoff debt={debt}/>
-                            </div>
+                            {/* <div>
+                                <Payoff debt={debt} />
+                            </div> */}
                         </div>
                     </div>
                 </div>

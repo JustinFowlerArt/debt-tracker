@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import blockInvalidChar from "@/Common/BlockInvalidChar";
 import Input from "./Input";
 
-export default function Debt({ debt, setDebt }) {
+export default function TotalDebt({ debt, setDebt }) {
     const [updateDebt, setUpdateDebt] = useState(true);
 
     function onSubmit(event) {

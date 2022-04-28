@@ -43,7 +43,7 @@ export default function Payoff({ debt }) {
                         name="payment"
                         className="p-0 ml-2"
                         handleChange={handleChange}
-                        onKeyDown={blockInvalidChar}
+                        handleKeyDown={blockInvalidChar}
                     />
                 </Label>
             </div>
