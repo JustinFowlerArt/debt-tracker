@@ -1,61 +1,80 @@
 import React, { useState } from "react";
 import DebtTable from "./DebtTable";
-import DebtInput from "./DebtInput";
+import Payoff from "./PayoffCalculator";
 
 export default function DebtForm() {
-    const [debtData, setDebtData] = useState({
-        id: 1,
-        name: "",
-        balance: "",
-        payment: "",
-        interest: "",
-    });
-    // const [debtInputData, setDebtInputData] = useState({
-    //     name: "",
-    //     balance: "",
-    //     payment: "",
-    //     interest: "",
-    // });
+    const [debts, setDebts] = useState([
+        {
+            id: 1,
+            name: "",
+            balance: 0,
+            payment: 0,
+            interest: 0,
+        },
+    ]);
 
-    const handleChange = (e) => {
-        const newInput = (data) => ({
-            ...data,
-            [e.target.name]: e.target.value,
-        });
-        setDebtData(newInput);
+    function handleChange(e, index) {
+        const { name, value } = e.target;
+        let input = value;
+        if (name !== "name") {
+            input = parseFloat(value);
+        }
+        const updatedDebt = [...debts];
+        updatedDebt[index][name] = input;
+        setDebts(updatedDebt);
+    }
+
+    const handleDelete = (i) => {
+        const list = [...debts];
+        list.splice(i, 1);
+        setDebts(list);
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const checkEmptyInput = !Object.values(debtInputData).every(
-    //         (res) => res === ""
-    //     );
-    //     if (checkEmptyInput) {
-    //         const newData = (data) => [...data, debtInputData];
-    //         setDebtData(newData);
-    //         const emptyInput = {
-    //             name: "",
-    //             balance: "",
-    //             payment: "",
-    //             interest: "",
-    //         };
-    //         setDebtInputData(emptyInput);
-    //     }
-    // };
-
-    // function handleClick() {
-    //     setDebts([...debts, <Debt />]);
-    // }
+    function handleAdd() {
+        setDebts([
+            ...debts,
+            {
+                id: debts.length + 1,
+                name: "",
+                balance: 0,
+                payment: 0,
+                interest: 0,
+            },
+        ]);
+    }
 
     return (
         <>
-            <DebtTable data={debtData} handleChange={handleChange} />
-            {/* <DebtInput
-                debtData={debtData}
+            <DebtTable
+                debts={debts}
                 handleChange={handleChange}
-                handleSubmit={handleSubmit}
-            /> */}
-            {/* <button onClick={handleClick}>Add Debt</button> */}
+                handleDelete={handleDelete}
+            />
+            <button
+                className="self-center my-4 px-3 py-2 rounded-md bg-green-200"
+                onClick={handleAdd}
+            >
+                Add Row
+            </button>
+            <Payoff debts={debts} />
         </>
     );
 }
+
+// const handleSubmit = (e) => {
+//     e.preventDefault();
+//     const checkEmptyInput = !Object.values(debtInputData).every(
+//         (res) => res === ""
+//     );
+//     if (checkEmptyInput) {
+//         const newData = (data) => [...data, debtInputData];
+//         setDebts(newData);
+//         const emptyInput = {
+//             name: "",
+//             balance: "",
+//             payment: "",
+//             interest: "",
+//         };
+//         setDebtInputData(emptyInput);
+//     }
+// };

@@ -36,7 +36,7 @@ export default function Input({
                 ref={input}
                 autoComplete={autoComplete}
                 required={required}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 onKeyDown={handleKeyDown}
             />
         </>

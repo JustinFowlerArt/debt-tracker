@@ -19,13 +19,8 @@ export default function Dashboard(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white shadow-sm sm:rounded-lg">
-                        <div className="flex flex-col justify-between p-6 bg-white border-b border-gray-200">
-                            <div>
-                                <DebtForm />
-                            </div>
-                            {/* <div>
-                                <Payoff debt={debt} />
-                            </div> */}
+                        <div className="flex flex-col p-6 bg-white border-b border-gray-200">
+                            <DebtForm />
                         </div>
                     </div>
                 </div>
