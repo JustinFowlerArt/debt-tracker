@@ -2,6 +2,7 @@ import React from "react";
 import blockInvalidChar from "@/Components/Common/BlockInvalidChar";
 import Input from "./Common/Input";
 import Label from "./Common/Label";
+import SelectInput from "./Common/Select";
 
 export default function PayoffForm({
     payoff,
@@ -14,7 +15,7 @@ export default function PayoffForm({
         <div className="flex">
             <div className="mr-6">
                 <Label forInput="payment" className="text-base">
-                    Payment Amount: $
+                    Extra Payment Amount: $
                     <Input
                         type="number"
                         name="payment"
@@ -25,21 +26,24 @@ export default function PayoffForm({
                     />
                 </Label>
             </div>
-            <select
-                className="py-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                value={payoff.frequency || ""}
-                name="frequency"
-                onChange={handleChange}
-            >
-                <option value="0">Select a Frequency</option>
-                <option value="12">Monthly</option>
-                <option value="26">Biweekly</option>
-                <option value="52">Weekly</option>
-            </select>
+            <div className="mr-6">
+                <Label forInput="payment" className="text-base">
+                    <SelectInput
+                        name="frequency"
+                        value={payoff.frequency || ""}
+                        onChange={handleChange}
+                        defaultOption="Select a Frequency"
+                        options={[
+                            { value: 1, text: "Monthly" },
+                            { value: 1 / 12, text: "Annually" },
+                        ]}
+                    />
+                </Label>
+            </div>
             {payoffLength > 0 && isFinite(payoffLength) && (
                 <div className="ml-6">
                     <p>
-                        Time until payoff: {payoffTerm} {payoffUnit}
+                        Payoff time: {payoffTerm} {payoffUnit}
                     </p>
                 </div>
             )}

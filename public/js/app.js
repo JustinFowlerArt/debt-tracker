@@ -4662,6 +4662,54 @@ function ResponsiveNavLink(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/Components/Common/Select.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Components/Common/Select.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var SelectInput = function SelectInput(_ref) {
+  var name = _ref.name,
+      onChange = _ref.onChange,
+      defaultOption = _ref.defaultOption,
+      value = _ref.value,
+      options = _ref.options;
+  return (
+    /*#__PURE__*/
+    // Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html
+    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+      name: name,
+      value: value,
+      onChange: onChange,
+      className: "py-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        value: "",
+        children: defaultOption
+      }), options.map(function (option) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: option.value,
+          children: option.text
+        }, option.value);
+      })]
+    })
+  );
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SelectInput);
+
+/***/ }),
+
 /***/ "./resources/js/Components/Common/ValidationErrors.js":
 /*!************************************************************!*\
   !*** ./resources/js/Components/Common/ValidationErrors.js ***!
@@ -4709,10 +4757,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DebtForm)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _DebtTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DebtTable */ "./resources/js/Components/DebtTable.js");
-/* harmony import */ var _PayoffCalculator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PayoffCalculator */ "./resources/js/Components/PayoffCalculator.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _DebtTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DebtTable */ "./resources/js/Components/DebtTable.js");
+/* harmony import */ var _PayoffCalculator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PayoffCalculator */ "./resources/js/Components/PayoffCalculator.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4739,8 +4789,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 function DebtForm() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([{
     id: 1,
     name: "",
     balance: 0,
@@ -4758,7 +4809,7 @@ function DebtForm() {
     var input = value;
 
     if (name !== "name") {
-      input = parseFloat(value);
+      (0,lodash__WEBPACK_IMPORTED_MODULE_0__.isEmpty)(input) ? null : input = parseFloat(value);
     }
 
     var updatedDebt = _toConsumableArray(debts);
@@ -4784,36 +4835,20 @@ function DebtForm() {
     }]));
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_DebtTable__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_DebtTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
       debts: debts,
       handleChange: handleChange,
       handleDelete: handleDelete
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
       className: "self-center my-4 px-3 py-2 rounded-md bg-green-200",
       onClick: handleAdd,
       children: "Add Row"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_PayoffCalculator__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_PayoffCalculator__WEBPACK_IMPORTED_MODULE_3__["default"], {
       debts: debts
     })]
   });
-} // const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const checkEmptyInput = !Object.values(debtInputData).every(
-//         (res) => res === ""
-//     );
-//     if (checkEmptyInput) {
-//         const newData = (data) => [...data, debtInputData];
-//         setDebts(newData);
-//         const emptyInput = {
-//             name: "",
-//             balance: "",
-//             payment: "",
-//             interest: "",
-//         };
-//         setDebtInputData(emptyInput);
-//     }
-// };
+}
 
 /***/ }),
 
@@ -4990,37 +5025,60 @@ function Payoff(_ref) {
       payoff = _useState2[0],
       setPayoff = _useState2[1];
 
-  var totalDebt = debts.reduce(function (_previousValue, _debt) {
-    return _previousValue += _debt.balance;
+  var totalDebt = debts.reduce(function (_totalDebt, _debt) {
+    return _totalDebt += _debt.balance;
   }, 0);
-  var payoffLength = totalDebt / (payoff.payment * payoff.frequency);
-  var payoffLengthMonths = Math.ceil(payoffLength * 12);
-  var payoffLengthWeeks = Math.ceil(payoffLength * 52);
+  var monthlyPayments = debts.reduce(function (_monthlyPayments, _debt) {
+    return _monthlyPayments += _debt.payment;
+  }, 0);
+  var extraPayments = payoff.payment * payoff.frequency;
+  var totalPayments = extraPayments + monthlyPayments;
+  var payoffLength = totalDebt / totalPayments;
+  var payoffLengthYears = payoffLength / 12; // UI payoff length calculations.
+
   var payoffTerm;
   var payoffUnit;
 
-  if (payoffLengthMonths > 24) {
-    payoffTerm = payoffLength.toFixed(1);
-    payoffUnit = "years";
-  } else if (payoffLengthMonths < 2) {
-    payoffTerm = payoffLengthWeeks;
-    payoffUnit = "weeks";
-  } else {
-    payoffTerm = payoffLengthMonths;
+  if (payoffLengthYears < 2) {
+    payoffTerm = Math.ceil(payoffLength);
     payoffUnit = "months";
-  }
+  } else {
+    payoffTerm = payoffLengthYears.toFixed(1);
+    payoffUnit = "years";
+  } // Compound interest calculations.
+  // p is the principal amount.
+
+
+  var principal = 2000; // t is the time the money is invested or borrowed for.
+
+  var time = 5; // r is the annual interest rate.
+
+  var rate = 0.08; // n is the number of times that interest is compounded per unit t, for example if interest is compounded monthly and t is in years then the value of n would be 12.
+  // If interest is compounded quarterly and t is in years then the value of n would be 4.
+
+  var n = 12;
+
+  var compoundInterest = function compoundInterest(p, t, r, n) {
+    var amount = p * Math.pow(1 + r / n, n * t);
+    var interest = amount - p;
+    return interest;
+  };
+
+  console.log(compoundInterest(principal, time, rate, n));
 
   function handleChange(_ref2) {
     var target = _ref2.target;
     setPayoff(_objectSpread(_objectSpread({}, payoff), {}, _defineProperty({}, target.name, target.value)));
   }
 
+  console.log("\n        totalDebt: ".concat(totalDebt, "\n        monthlyPayments: ").concat(monthlyPayments, "\n        extraPayments: ").concat(extraPayments, "\n        totalPayments: ").concat(totalPayments, "\n        payoffLengthMonths ").concat(payoffLength, "\n        payoffLengthYears ").concat(payoffLengthYears, "\n    "));
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_PayoffForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
     payoff: payoff,
     handleChange: handleChange,
     payoffTerm: payoffTerm,
     payoffUnit: payoffUnit,
-    payoffLength: payoffLength
+    payoffLength: payoffLength,
+    extraPayments: extraPayments
   });
 }
 
@@ -5041,7 +5099,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Common_BlockInvalidChar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/Common/BlockInvalidChar */ "./resources/js/Components/Common/BlockInvalidChar.js");
 /* harmony import */ var _Common_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Common/Input */ "./resources/js/Components/Common/Input.js");
 /* harmony import */ var _Common_Label__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Common/Label */ "./resources/js/Components/Common/Label.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Common_Select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Common/Select */ "./resources/js/Components/Common/Select.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -5054,14 +5114,14 @@ function PayoffForm(_ref) {
       payoffUnit = _ref.payoffUnit,
       handleChange = _ref.handleChange,
       payoffLength = _ref.payoffLength;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "flex",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "mr-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_Common_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_Common_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
         forInput: "payment",
         className: "text-base",
-        children: ["Payment Amount: $", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Common_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: ["Extra Payment Amount: $", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Common_Input__WEBPACK_IMPORTED_MODULE_2__["default"], {
           type: "number",
           name: "payment",
           className: "p-0 ml-2",
@@ -5072,28 +5132,29 @@ function PayoffForm(_ref) {
           }
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
-      className: "py-0 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm",
-      value: payoff.frequency || "",
-      name: "frequency",
-      onChange: handleChange,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-        value: "0",
-        children: "Select a Frequency"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-        value: "12",
-        children: "Monthly"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-        value: "26",
-        children: "Biweekly"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-        value: "52",
-        children: "Weekly"
-      })]
-    }), payoffLength > 0 && isFinite(payoffLength) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "mr-6",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Common_Label__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        forInput: "payment",
+        className: "text-base",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Common_Select__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          name: "frequency",
+          value: payoff.frequency || "",
+          onChange: handleChange,
+          defaultOption: "Select a Frequency",
+          options: [{
+            value: 1,
+            text: "Monthly"
+          }, {
+            value: 1 / 12,
+            text: "Annually"
+          }]
+        })
+      })
+    }), payoffLength > 0 && isFinite(payoffLength) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "ml-6",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
-        children: ["Time until payoff: ", payoffTerm, " ", payoffUnit]
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
+        children: ["Payoff time: ", payoffTerm, " ", payoffUnit]
       })
     })]
   });
@@ -58142,6 +58203,18 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	

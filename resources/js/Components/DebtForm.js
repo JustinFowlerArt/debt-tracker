@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import React, { useState } from "react";
 import DebtTable from "./DebtTable";
 import Payoff from "./PayoffCalculator";
@@ -17,7 +18,7 @@ export default function DebtForm() {
         const { name, value } = e.target;
         let input = value;
         if (name !== "name") {
-            input = parseFloat(value);
+            isEmpty(input) ? null : (input = parseFloat(value));
         }
         const updatedDebt = [...debts];
         updatedDebt[index][name] = input;
@@ -60,21 +61,3 @@ export default function DebtForm() {
         </>
     );
 }
-
-// const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const checkEmptyInput = !Object.values(debtInputData).every(
-//         (res) => res === ""
-//     );
-//     if (checkEmptyInput) {
-//         const newData = (data) => [...data, debtInputData];
-//         setDebts(newData);
-//         const emptyInput = {
-//             name: "",
-//             balance: "",
-//             payment: "",
-//             interest: "",
-//         };
-//         setDebtInputData(emptyInput);
-//     }
-// };
