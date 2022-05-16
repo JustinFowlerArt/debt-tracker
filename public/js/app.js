@@ -5017,14 +5017,29 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function Payoff(_ref) {
   var debts = _ref.debts;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      debtInterest = _useState2[0],
+      setDebtInterest = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     payment: 0,
     frequency: null
   }),
-      _useState2 = _slicedToArray(_useState, 2),
-      payoff = _useState2[0],
-      setPayoff = _useState2[1];
+      _useState4 = _slicedToArray(_useState3, 2),
+      payoff = _useState4[0],
+      setPayoff = _useState4[1];
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var newInterest = 0;
+    debts.forEach(function (debt) {
+      if (debt.balance && debt.payment && debt.interest) {
+        newInterest += compoundInterest(debt.balance, debt.balance / debt.payment / 12, debt.interest / 100, 12);
+      }
+    });
+    setDebtInterest(newInterest);
+  }, [debts]);
+  console.log(debtInterest);
   var totalDebt = debts.reduce(function (_totalDebt, _debt) {
     return _totalDebt += _debt.balance;
   }, 0);
@@ -5033,7 +5048,7 @@ function Payoff(_ref) {
   }, 0);
   var extraPayments = payoff.payment * payoff.frequency;
   var totalPayments = extraPayments + monthlyPayments;
-  var payoffLength = totalDebt / totalPayments;
+  var payoffLength = (totalDebt + debtInterest) / totalPayments;
   var payoffLengthYears = payoffLength / 12; // UI payoff length calculations.
 
   var payoffTerm;
@@ -5045,33 +5060,56 @@ function Payoff(_ref) {
   } else {
     payoffTerm = payoffLengthYears.toFixed(1);
     payoffUnit = "years";
-  } // Compound interest calculations.
-  // p is the principal amount.
-
-
-  var principal = 2000; // t is the time the money is invested or borrowed for.
-
-  var time = 5; // r is the annual interest rate.
-
-  var rate = 0.08; // n is the number of times that interest is compounded per unit t, for example if interest is compounded monthly and t is in years then the value of n would be 12.
-  // If interest is compounded quarterly and t is in years then the value of n would be 4.
-
-  var n = 12;
-
-  var compoundInterest = function compoundInterest(p, t, r, n) {
-    var amount = p * Math.pow(1 + r / n, n * t);
-    var interest = amount - p;
-    return interest;
-  };
-
-  console.log(compoundInterest(principal, time, rate, n));
+  }
 
   function handleChange(_ref2) {
     var target = _ref2.target;
     setPayoff(_objectSpread(_objectSpread({}, payoff), {}, _defineProperty({}, target.name, target.value)));
+  } // // Compound interest calculations.
+  // // p is the principal amount.
+  // const principal = 2000;
+  // // t is the time the money is invested or borrowed for.
+  // const time = 5;
+  // // r is the annual interest rate.
+  // const rate = 0.08;
+  // // n is the number of times that interest is compounded per unit t, for example if interest is compounded monthly and t is in years then the value of n would be 12.
+  // // If interest is compounded quarterly and t is in years then the value of n would be 4.
+  // const n = 12;
+
+
+  function compoundInterest() {
+    var p = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    var r = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var n = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 12;
+    var amount = p * Math.pow(1 + r / n, n * t);
+    var interest = amount - p;
+    return interest;
   }
 
-  console.log("\n        totalDebt: ".concat(totalDebt, "\n        monthlyPayments: ").concat(monthlyPayments, "\n        extraPayments: ").concat(extraPayments, "\n        totalPayments: ").concat(totalPayments, "\n        payoffLengthMonths ").concat(payoffLength, "\n        payoffLengthYears ").concat(payoffLengthYears, "\n    "));
+  ; // console.log(compoundInterest(principal, time, rate, n));
+  // debts.forEach((debt) => {
+  //     console.log(`
+  //         Balance: ${debt.balance}
+  //         Payment: ${debt.payment}
+  //         Interest: ${debt.interest}
+  //         Total Interest: ${compoundInterest(
+  //             debt.balance,
+  //             debt.balance / debt.payment / 12,
+  //             debt.interest / 100,
+  //             12
+  //         )}
+  // `);
+  // });
+  // console.log(`
+  //     totalDebt: ${totalDebt}
+  //     monthlyPayments: ${monthlyPayments}
+  //     extraPayments: ${extraPayments}
+  //     totalPayments: ${totalPayments}
+  //     payoffLengthMonths ${payoffLength}
+  //     payoffLengthYears ${payoffLengthYears}
+  // `);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_PayoffForm__WEBPACK_IMPORTED_MODULE_1__["default"], {
     payoff: payoff,
     handleChange: handleChange,
@@ -6110,10 +6148,10 @@ function Welcome(props) {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
+/***/ "./resources/js/app.tsx":
+/*!******************************!*\
+  !*** ./resources/js/app.tsx ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -58326,7 +58364,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.tsx")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
