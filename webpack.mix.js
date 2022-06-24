@@ -11,7 +11,7 @@ const mix = require("laravel-mix");
  |
  */
 
-mix.js("resources/js/app.tsx", "public/js")
+mix.ts("resources/js/app.tsx", "public/js")
     .react()
     .postCss("resources/css/app.css", "public/css", [
         require("postcss-import"),
@@ -20,7 +20,14 @@ mix.js("resources/js/app.tsx", "public/js")
     ])
     .alias({
         "@": "resources/js",
+    })
+    .webpackConfig({
+        devtool: 'inline-source-map',
+        output: {
+            chunkFilename: 'js/[name].js?id=[chunkhash]'
+          },
     });
+    
 
 if (mix.inProduction()) {
     mix.version();

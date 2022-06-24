@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "lib": ["dom", "dom.iterable", "esnext"],
-        "module": "es6",
+        "module": "esnext",
         "target": "es6",
         "outDir": "./dist/",
         "sourceMap": true,
@@ -12,20 +12,11 @@
         "isolatedModules": true,
         "jsx": "react-jsx",
         "moduleResolution": "node",
-        "noEmit": true,
+        "noEmit": false,
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "strict": true
     },
-    // "compilerOptions": {
-    //     "target": "es5",
-    //     "module": "es2020",
-    //     "moduleResolution": "node",
-    //     "baseUrl": "./",
-    //     "strict": true, // Enable strict type-checking options
-    //     "skipLibCheck": true, // Skip type checking of declaration files
-    //     "noImplicitAny": false // Bypass raising errors on `any` type
-    // },
     "include": ["resources/js/**/*"]
 }
