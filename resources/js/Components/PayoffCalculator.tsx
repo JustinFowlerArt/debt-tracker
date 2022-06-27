@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
 import PayoffForm from "./PayoffForm";
 import { Debt } from "./DebtForm";
+import PayoffTable from "./PayoffTable"
 
 interface Props {
     debts: Array<Debt>;
 }
 
-export default function Payoff({ debts }: Props) {
-    const [debtInterest, setDebtInterest] = useState(0);
+export default function PayoffCalculator({ debts }: Props) {
+    const [debtInterest, setDebtInterest] = useState(0)
     const [payoff, setPayoff] = useState({
         payment: 0,
         frequency: 1,
     });
 
     useEffect(() => {
-        let newInterest = 0;
+        let interest = 0;
         debts.forEach((debt) => {
-            if (debt.balance && debt.payment && debt.interest) {
-                newInterest += compoundInterest(
+            if (debt.balance && debt.payment && debt.interestRate) {
+                interest += compoundInterest(
                     debt.balance,
-                    debt.balance / debt.payment / 12,
-                    debt.interest / 100,
+                    debt.balance / (debt.payment + (payoff.payment * payoff.frequency)) / 12,
+                    debt.interestRate / 100,
                     12
                 );
             }
         });
-        setDebtInterest(newInterest);
-    }, [debts]);
+        setDebtInterest(interest)
+    }, [debts, payoff]);
 
-    console.log(debtInterest);
-
+    // Total debt payoff calculation
     const totalDebt = debts.reduce(
         (_totalDebt, _debt) => (_totalDebt += _debt.balance),
         0
@@ -51,6 +51,7 @@ export default function Payoff({ debts }: Props) {
     let payoffUnit: string;
     if (payoffLengthYears < 2) {
         payoffTerm = Math.ceil(payoffLength);
+        // payoffTerm = payoffLength;
         payoffUnit = "months";
     } else {
         payoffTerm = Number(payoffLengthYears.toFixed(1));
@@ -64,54 +65,34 @@ export default function Payoff({ debts }: Props) {
         });
     }
 
-    // // Compound interest calculations.
-    // // p is the principal amount.
-    // const principal = 2000;
-    // // t is the time the money is invested or borrowed for.
-    // const time = 5;
-    // // r is the annual interest rate.
-    // const rate = 0.08;
-    // // n is the number of times that interest is compounded per unit t, for example if interest is compounded monthly and t is in years then the value of n would be 12.
-    // // If interest is compounded quarterly and t is in years then the value of n would be 4.
-    // const n = 12;
+    // Compound interest calculations.
+    // p is the principal amount ie principal = 2000.
+    // t is the time the money is invested or borrowed for ie time = 5.
+    // r is the annual interest rate ie rate = 0.08.
+    // n is the number of times that interest is compounded per unit t.
+    // - if interest is compounded monthly and t is in years then the value of n would be 12.
+    // - If interest is compounded quarterly and t is in years then the value of n would be 4.
     function compoundInterest(p = 0, t = 1, r = 0, n = 12) {
         const amount = p * Math.pow(1 + r / n, n * t);
         const interest = amount - p;
         return interest;
     }
-    // console.log(compoundInterest(principal, time, rate, n));
 
-    // debts.forEach((debt) => {
-    //     console.log(`
-    //         Balance: ${debt.balance}
-    //         Payment: ${debt.payment}
-    //         Interest: ${debt.interest}
-
-    //         Total Interest: ${compoundInterest(
-    //             debt.balance,
-    //             debt.balance / debt.payment / 12,
-    //             debt.interest / 100,
-    //             12
-    //         )}
-    // `);
-    // });
-
-    // console.log(`
-    //     totalDebt: ${totalDebt}
-    //     monthlyPayments: ${monthlyPayments}
-    //     extraPayments: ${extraPayments}
-    //     totalPayments: ${totalPayments}
-    //     payoffLengthMonths ${payoffLength}
-    //     payoffLengthYears ${payoffLengthYears}
-    // `);
-
+    console.log(`PayoffCalculator interest: ${debtInterest}`)
+   
     return (
-        <PayoffForm
-            payoff={payoff}
-            handleChange={handleChange}
-            payoffTerm={payoffTerm}
-            payoffUnit={payoffUnit}
-            payoffLength={payoffLength}
-        />
+        <>
+            <PayoffForm
+                payoff={payoff}
+                handleChange={handleChange}
+                payoffTerm={payoffTerm}
+                payoffUnit={payoffUnit}
+                payoffLength={payoffLength}
+            />
+            <PayoffTable
+                debts={debts}
+                payoff={payoff}
+            />
+        </>
     );
 }

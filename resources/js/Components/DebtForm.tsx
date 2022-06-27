@@ -1,14 +1,14 @@
 import { isEmpty } from "lodash";
 import React, { useState } from "react";
 import DebtTable from "./DebtTable";
-import Payoff from "./PayoffCalculator";
+import PayoffCalculator from "./PayoffCalculator";
 
 export interface Debt {
     id: number;
     name: string | number;
     balance: number;
     payment: number;
-    interest: number;
+    interestRate: number;
 }
 
 export default function DebtForm() {
@@ -18,7 +18,7 @@ export default function DebtForm() {
             name: "",
             balance: 0,
             payment: 0,
-            interest: 0,
+            interestRate: 0,
         },
     ]);
 
@@ -51,7 +51,7 @@ export default function DebtForm() {
                 name: "",
                 balance: 0,
                 payment: 0,
-                interest: 0,
+                interestRate: 0,
             },
         ]);
     }
@@ -69,7 +69,7 @@ export default function DebtForm() {
             >
                 Add Row
             </button>
-            <Payoff debts={debts} />
+            <PayoffCalculator debts={debts} />
         </>
     );
 }

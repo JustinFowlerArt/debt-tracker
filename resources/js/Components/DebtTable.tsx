@@ -32,7 +32,7 @@ export default function DebtTable({
             <tbody>
                 {debts?.map((debt, index) => {
                     return (
-                        <tr key={index} className="my-1">
+                        <tr key={debt.id} className="my-1">
                             <td className="py-1">{debt.id}.</td>
                             <td className="py-1">
                                 <Input
@@ -70,8 +70,8 @@ export default function DebtTable({
                             <td className="py-1">
                                 <Input
                                     type="number"
-                                    name="interest"
-                                    value={debt.interest}
+                                    name="interestRate"
+                                    value={debt.interestRate}
                                     className="p-1 w-20"
                                     handleChange={(e) => handleChange(e, index)}
                                     handleKeyDown={(e) => blockInvalidChar(e)}
