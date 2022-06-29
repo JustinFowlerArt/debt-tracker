@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
-import PayoffForm from "./PayoffForm";
 import { Debt } from "./DebtForm";
+import localeOptions from "./Common/LocaleOptions";
+import { useEffect } from "react";
 
 interface Props {
     debts: Array<Debt>;
-    payoff: {
-        payment: number;
-        frequency: number;
+    calculatePayoff: (debt: Debt) => {
+        paymentMonth: number;
+        monthsUntilPayoff: number;
+        extraPayments: number;
+        finalPayment: number;
+        totalPaid: number;
+        interestPaid: number;
     };
 }
 
-export default function PayoffTable({ debts, payoff }: Props) {
+export default function PayoffTable({ debts, calculatePayoff }: Props) {
     return (
         <table className="table-auto w-full border-separate mt-4">
             <thead>
@@ -26,33 +30,14 @@ export default function PayoffTable({ debts, payoff }: Props) {
             <tbody>
                 {debts?.map((debt) => {
                     if (debt.balance && debt.payment && debt.interestRate) {
-
-                        let interestCalc = 1 + ((debt.interestRate / 100) / 12)
-                        let debtBalance = debt.balance * interestCalc
-                        let interestPaid = 0
-                        let totalPaid = debt.payment;
-                        let finalPayment = 0;
-                        let monthsUntilPayoff = 1
-                        let paymentMonth = 0
-
-                        console.log(`Initial Balance: ${debtBalance}`)
-
-                        while (debtBalance >= 0.0001) {
-                            debtBalance = (debtBalance - debt.payment) * interestCalc
-                            ++monthsUntilPayoff
-                            ++paymentMonth
-                            if (debtBalance < debt.payment) {
-                                console.log(`Month ${paymentMonth} Balance: ${debtBalance}`)
-                                finalPayment = debtBalance;
-                                totalPaid += finalPayment
-                                debtBalance = 0;
-                                console.log(`Final payment: ${finalPayment}`)
-                            } else {
-                                totalPaid += debt.payment
-                                console.log(`Month ${paymentMonth}: ${debtBalance}`)
-                            }
-                        }
-                        interestPaid = totalPaid - debt.balance;
+                        const {
+                            paymentMonth,
+                            monthsUntilPayoff,
+                            extraPayments,
+                            finalPayment,
+                            totalPaid,
+                            interestPaid,
+                        } = calculatePayoff(debt);
 
                         return (
                             <tr key={debt.id} className="my-1">
@@ -60,23 +45,56 @@ export default function PayoffTable({ debts, payoff }: Props) {
                                     {debt.id}. {debt.name}
                                 </td>
                                 <td className="py-1">
-                                    {monthsUntilPayoff} Months
+                                    {monthsUntilPayoff}{" "}
+                                    {monthsUntilPayoff > 1 ? (
+                                        <>Months</>
+                                    ) : (
+                                        <>Month</>
+                                    )}{" "}
+                                    -{" "}
+                                    <>
+                                        {(monthsUntilPayoff / 12).toFixed(1)}{" "}
+                                        Years
+                                    </>
                                 </td>
                                 <td className="py-1">
-                                    <span className="p-1">$</span>
-                                    {interestPaid.toFixed(2)}
+                                    {interestPaid.toLocaleString(
+                                        "en-US",
+                                        localeOptions
+                                    )}
                                 </td>
                                 <td className="py-1">
-                                    <span className="p-1">$</span>
-                                    {totalPaid.toFixed(2)}
+                                    {totalPaid.toLocaleString(
+                                        "en-US",
+                                        localeOptions
+                                    )}
                                 </td>
-                                <td className="py-1">Pay ${debt.payment} until month {paymentMonth} <br />
-                                    Pay ${finalPayment.toFixed(2)} at month {monthsUntilPayoff} to pay off
+                                <td className="py-1">
+                                    Pay{" "}
+                                    {(debt.payment + extraPayments > totalPaid
+                                        ? totalPaid
+                                        : debt.payment + extraPayments
+                                    ).toLocaleString(
+                                        "en-US",
+                                        localeOptions
+                                    )}{" "}
+                                    until month {paymentMonth} <br />
+                                    {finalPayment > 0 && (
+                                        <p>
+                                            Pay{" "}
+                                            {finalPayment.toLocaleString(
+                                                "en-US",
+                                                localeOptions
+                                            )}{" "}
+                                            at month {monthsUntilPayoff} to pay
+                                            off
+                                        </p>
+                                    )}
                                 </td>
                             </tr>
                         );
                     } else {
-                        <></>
+                        <></>;
                     }
                 })}
             </tbody>

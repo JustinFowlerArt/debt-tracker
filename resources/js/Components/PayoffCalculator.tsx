@@ -1,48 +1,22 @@
 import React, { useEffect, useState } from "react";
 import PayoffForm from "./PayoffForm";
 import { Debt } from "./DebtForm";
-import PayoffTable from "./PayoffTable"
+import PayoffTable from "./PayoffTable";
 
 interface Props {
     debts: Array<Debt>;
 }
 
 export default function PayoffCalculator({ debts }: Props) {
-    const [debtInterest, setDebtInterest] = useState(0)
-    const [payoff, setPayoff] = useState({
+    const [payoffLength, setPayoffLength] = useState(0);
+    const [extraPayment, setExtraPayment] = useState({
         payment: 0,
         frequency: 1,
     });
 
     useEffect(() => {
-        let interest = 0;
-        debts.forEach((debt) => {
-            if (debt.balance && debt.payment && debt.interestRate) {
-                interest += compoundInterest(
-                    debt.balance,
-                    debt.balance / (debt.payment + (payoff.payment * payoff.frequency)) / 12,
-                    debt.interestRate / 100,
-                    12
-                );
-            }
-        });
-        setDebtInterest(interest)
-    }, [debts, payoff]);
-
-    // Total debt payoff calculation
-    const totalDebt = debts.reduce(
-        (_totalDebt, _debt) => (_totalDebt += _debt.balance),
-        0
-    );
-
-    const monthlyPayments = debts.reduce(
-        (_monthlyPayments, _debt) => (_monthlyPayments += _debt.payment),
-        0
-    );
-
-    const extraPayments = payoff.payment * payoff.frequency;
-    const totalPayments = extraPayments + monthlyPayments;
-    const payoffLength = (totalDebt + debtInterest) / totalPayments;
+        updatePayoff(0);
+    }, [debts]);
 
     const payoffLengthYears = payoffLength / 12;
 
@@ -51,7 +25,6 @@ export default function PayoffCalculator({ debts }: Props) {
     let payoffUnit: string;
     if (payoffLengthYears < 2) {
         payoffTerm = Math.ceil(payoffLength);
-        // payoffTerm = payoffLength;
         payoffUnit = "months";
     } else {
         payoffTerm = Number(payoffLengthYears.toFixed(1));
@@ -59,40 +32,93 @@ export default function PayoffCalculator({ debts }: Props) {
     }
 
     function handleChange({ target }: React.ChangeEvent<HTMLInputElement>) {
-        setPayoff({
-            ...payoff,
+        setExtraPayment({
+            ...extraPayment,
             [target.name]: target.value,
         });
     }
 
-    // Compound interest calculations.
-    // p is the principal amount ie principal = 2000.
-    // t is the time the money is invested or borrowed for ie time = 5.
-    // r is the annual interest rate ie rate = 0.08.
-    // n is the number of times that interest is compounded per unit t.
-    // - if interest is compounded monthly and t is in years then the value of n would be 12.
-    // - If interest is compounded quarterly and t is in years then the value of n would be 4.
-    function compoundInterest(p = 0, t = 1, r = 0, n = 12) {
-        const amount = p * Math.pow(1 + r / n, n * t);
-        const interest = amount - p;
-        return interest;
+    function updatePayoff(monthsUntilPayoff: number) {
+        setPayoffLength(monthsUntilPayoff);
     }
 
-    console.log(`PayoffCalculator interest: ${debtInterest}`)
-   
+    // TODO: Exclude 0 values from minDebt comparison
+    let minDebt = debts.reduce((previousValue, currentValue) =>
+        currentValue.balance < previousValue.balance
+            ? currentValue
+            : previousValue
+    );
+
+    function calculatePayoff(debt: Debt) {
+        let interestCalc = 1 + debt.interestRate / 100 / 12;
+        let debtBalance = debt.balance * interestCalc;
+        let totalPaid = debt.payment;
+        let finalPayment = 0;
+        let monthsUntilPayoff = 1;
+        let paymentMonth = 0;
+        let extraPayments = 0;
+
+        // TODO: Recalculate minDebt after debtBalance === 0
+        if (debt === minDebt) {
+            extraPayments = extraPayment.payment * extraPayment.frequency;
+            totalPaid += extraPayments;
+        }
+
+        console.log(`Initial Balance: ${debtBalance}`);
+
+        while (debtBalance >= 0.0001 && debtBalance <= 1000000) {
+            debtBalance =
+                (debtBalance - debt.payment - extraPayments) * interestCalc;
+            monthsUntilPayoff++;
+            paymentMonth++;
+            if (debtBalance < debt.payment + extraPayments) {
+                console.log(`Month ${paymentMonth} Balance: ${debtBalance}`);
+                finalPayment = debtBalance;
+                totalPaid += finalPayment;
+                debtBalance = 0;
+                console.log(`Final payment: ${finalPayment}`);
+            } else {
+                totalPaid += debt.payment + extraPayments;
+                console.log(`Month ${paymentMonth}: ${debtBalance}`);
+            }
+        }
+
+        if (totalPaid < debt.balance) {
+            totalPaid = debt.balance
+        }
+
+        if (finalPayment < 0) {
+            finalPayment = 0
+            monthsUntilPayoff--
+        }
+
+        const interestPaid = totalPaid - debt.balance;
+
+        // TODO: Fix call from rendering component error
+        if (monthsUntilPayoff > payoffLength) {
+            setPayoffLength(monthsUntilPayoff);
+        }
+
+        return {
+            paymentMonth,
+            monthsUntilPayoff,
+            extraPayments,
+            finalPayment,
+            totalPaid,
+            interestPaid,
+        };
+    }
+
     return (
         <>
             <PayoffForm
-                payoff={payoff}
+                extraPayment={extraPayment}
                 handleChange={handleChange}
                 payoffTerm={payoffTerm}
                 payoffUnit={payoffUnit}
                 payoffLength={payoffLength}
             />
-            <PayoffTable
-                debts={debts}
-                payoff={payoff}
-            />
+            <PayoffTable debts={debts} calculatePayoff={calculatePayoff} />
         </>
     );
 }

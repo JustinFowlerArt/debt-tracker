@@ -5,7 +5,7 @@ import Label from "./Common/Label";
 import SelectInput from "./Common/Select";
 
 interface Props {
-    payoff: {
+    extraPayment: {
         payment: number;
         frequency: number;
     };
@@ -16,14 +16,14 @@ interface Props {
 }
 
 export default function PayoffForm({
-    payoff,
+    extraPayment,
     payoffTerm,
     payoffUnit,
     handleChange,
     payoffLength,
 }: Props) {
     return (
-        <div className="flex">
+        <div className="flex items-center">
             <div className="mr-6">
                 <Label forInput="payment" className="text-base">
                     Extra Payment Amount: $
@@ -31,7 +31,7 @@ export default function PayoffForm({
                         type="number"
                         name="payment"
                         className="p-0 ml-2"
-                        value={payoff.payment}
+                        value={extraPayment.payment}
                         handleChange={handleChange}
                         handleKeyDown={(e) => blockInvalidChar(e)}
                     />
@@ -41,7 +41,7 @@ export default function PayoffForm({
                 <Label forInput="payment" className="text-base">
                     <SelectInput
                         name="frequency"
-                        value={payoff.frequency}
+                        value={extraPayment.frequency}
                         onChange={handleChange}
                         defaultOption={1}
                         options={[
